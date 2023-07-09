@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 # -*- coding:utf-8 -*-
 
-## Usage: sudo bash ~/HTB/workflow-scan4HTB.sh
+## Usage: sudo bash ~/workflow-scan4HTB/workflow-scan4HTB.sh <HTB_IP>
 
 set -eu
 
