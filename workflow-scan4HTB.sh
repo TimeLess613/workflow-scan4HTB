@@ -15,7 +15,8 @@ ports=$(grep 'open' "${HTB_IP}_ports_all.nmap" | cut -d '/' -f1 | paste -sd ',')
 nmap -v -Pn -n -sT -sV -O -p ${ports} ${HTB_IP} | tee "${HTB_IP}_baseScan.nmap"
 echo "[info] Base scan is Done."
 
-echo "[info] Starting NSE vuln scan..."
+echo "[info] Starting NSE vuln scan for ports < 5000..."
+ports_lt5000=$(grep 'open' "${HTB_IP}_ports_all.nmap" | cut -d '/' -f1 | awk '$1 < 5000' | paste -sd ',')
 nohup nmap -v -Pn -n -p ${ports} --script=vuln ${HTB_IP} > "${HTB_IP}_NSE-vuln.nmap" 2>&1 &
 echo "[info] Running NSE vuln scan background..."
 
@@ -42,7 +43,7 @@ if [[ ${HEADER_Location} != '' ]];then
     cat -e /etc/hosts
 
 #     echo "[info] Scanning subdomain..."
-#     gobuster vhost -u ${HTB_DOMAIN} -w /usr/share/wordlists/amass/bitquark_subdomains_top100K.txt -t 500 --append-domain -o "subdomains_${HTB_DOMAIN}.txt"
+#     gobuster vhost -u ${HTB_DOMAIN} -w /usr/share/wordlists/amass/bitquark_subdomains_top100K.txt -t 100 --append-domain -o "subdomains_${HTB_DOMAIN}.txt"
 #     echo "[info] Subdomain scan is Done."
   fi
 fi
