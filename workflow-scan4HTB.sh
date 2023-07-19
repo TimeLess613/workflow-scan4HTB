@@ -17,7 +17,7 @@ echo "[info] Base scan is Done."
 
 echo "[info] Starting NSE vuln scan for ports < 5000..."
 ports_lt5000=$(grep 'open' "${HTB_IP}_ports_all.nmap" | cut -d '/' -f1 | awk '$1 < 5000' | paste -sd ',')
-nohup nmap -v -Pn -n -p ${ports} --script=vuln ${HTB_IP} > "${HTB_IP}_NSE-vuln.nmap" 2>&1 &
+nohup nmap -v -Pn -n -p ${ports_lt5000} --script=vuln ${HTB_IP} > "${HTB_IP}_NSE-vuln.nmap" 2>&1 &
 echo "[info] Running NSE vuln scan background..."
 
 echo "[info] ==============================================="
