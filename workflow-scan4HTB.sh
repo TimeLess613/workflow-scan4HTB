@@ -12,7 +12,7 @@ nmap -Pn -n -sT --reason -p- --min-rate=10000 ${HTB_IP} | tee "${HTB_IP}_ports_a
 
 echo "[info] Starting base scan..."
 ports=$(grep 'open' "${HTB_IP}_ports_all.nmap" | cut -d '/' -f1 | paste -sd ',')
-nmap -v -Pn -n -sT -sV -O -p ${ports} ${HTB_IP} | tee "${HTB_IP}_baseScan.nmap"
+nmap -v -Pn -n -sT -sCV -O -p ${ports} ${HTB_IP} | tee "${HTB_IP}_baseScan.nmap"
 echo "[info] Base scan is Done."
 
 echo "[info] Starting NSE vuln scan for ports < 5000..."
