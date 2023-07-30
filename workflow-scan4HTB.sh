@@ -6,51 +6,54 @@
 set -eu
 
 HTB_IP=${1}
+YT_BB='\033[33;44m'    # yellow text blue background
+RS='\033[0m'           # reset style
 
-echo "[info] Starting ports scan..."
+
+echo -e "${YT_BB}[info]${RS} Starting ports scan..."
 nmap -Pn -n -sT --reason -p- --min-rate=10000 ${HTB_IP} | tee "${HTB_IP}_ports_all.nmap"
 
-echo "[info] Starting base scan..."
+echo -e "${YT_BB}[info]${RS} Starting base scan..."
 ports=$(grep 'open' "${HTB_IP}_ports_all.nmap" | cut -d '/' -f1 | paste -sd ',')
 nmap -v -Pn -n -sT -sCV -O -p ${ports} ${HTB_IP} | tee "${HTB_IP}_baseScan.nmap"
-echo "[info] Base scan is Done."
+echo -e "${YT_BB}[info]${RS} Base scan is Done."
 
-echo "[info] Starting NSE vuln scan for ports < 5000..."
+echo -e "${YT_BB}[info]${RS} Starting NSE vuln scan for ports < 5000..."
 ports_lt5000=$(grep 'open' "${HTB_IP}_ports_all.nmap" | cut -d '/' -f1 | awk '$1 < 5000' | paste -sd ',')
 nohup nmap -v -Pn -n -p ${ports_lt5000} --script=vuln ${HTB_IP} > "${HTB_IP}_NSE-vuln.nmap" 2>&1 &
-echo "[info] Running NSE vuln scan background..."
+echo -e "${YT_BB}[info]${RS} Running NSE vuln scan background..."
 
-echo "[info] ==============================================="
+echo -e "${YT_BB}[info]${RS} ==============================================="
 
-echo "[info] Checking if there is domain for add to hosts..."
+echo -e "${YT_BB}[info]${RS} Checking if there is domain for add to hosts..."
 HEADER_Location=$(curl -m 3 -I ${HTB_IP} | grep "Location:" || true)
 
 if [[ ${HEADER_Location} != '' ]];then
   HTB_DOMAIN=$(echo ${HEADER_Location} | cut -d '/' -f 3)
-  echo "[info] HTB_DOMAIN: ${HTB_DOMAIN}"
+  echo -e "${YT_BB}[info]${RS} HTB_DOMAIN: ${HTB_DOMAIN}"
 
   if [[ ${HTB_DOMAIN} != '' ]];then
     # shows for backup
-    echo "[info] -------- Back up hosts --------"
+    echo -e "${YT_BB}[info]${RS} -------- Back up hosts --------"
     cat -e /etc/hosts
-    echo "[info] -------- Backed up hosts --------"
+    echo -e "${YT_BB}[info]${RS} -------- Backed up hosts --------"
 
-    echo "[info] -------- Add HTB_DOMAIN(${HTB_DOMAIN}) to hosts --------"
+    echo -e "${YT_BB}[info]${RS} -------- Add HTB_DOMAIN(${HTB_DOMAIN}) to hosts --------"
     echo "${HTB_IP}    ${HTB_DOMAIN}" >> /etc/hosts
-    echo "[info] -------- Modified hosts --------"
+    echo -e "${YT_BB}[info]${RS} -------- Modified hosts --------"
 
-    echo "[info] -------- Show now hosts --------"
+    echo -e "${YT_BB}[info]${RS} -------- Show now hosts --------"
     cat -e /etc/hosts
 
-#     echo "[info] Scanning subdomain..."
+#     echo -e "${YT_BB}[info]${RS} Scanning subdomain..."
 #     gobuster vhost -u ${HTB_DOMAIN} -w /usr/share/wordlists/amass/bitquark_subdomains_top100K.txt -t 100 --append-domain -o "subdomains_${HTB_DOMAIN}.txt"
-#     echo "[info] Subdomain scan is Done."
+#     echo -e "${YT_BB}[info]${RS} Subdomain scan is Done."
   fi
 fi
 
-echo "[info] ==============================================="
-echo "[info] The NSE-vuln scan maybe still running..."
-echo "[info] Show ps..."
+echo -e "${YT_BB}[info]${RS} ==============================================="
+echo -e "${YT_BB}[info]${RS} The NSE-vuln scan maybe still running..."
+echo -e "${YT_BB}[info]${RS} Show ps..."
 ps -ef | grep 'nmap -v '
-echo "[info] ==============================================="
-echo "[info] If it's still running, please check status with command: ps -ef | grep 'nmap -v -Pn -n'"
+echo -e "${YT_BB}[info]${RS} ==============================================="
+echo -e "${YT_BB}[info]${RS} If it's still running, please check status with command: ps -ef | grep 'nmap -v -Pn -n'"
