@@ -11,14 +11,14 @@ RS='\033[0m'           # reset style
 
 
 echo -e "${YT_BB}[info]${RS} Starting ports scan..."
-nmap -Pn -n -sT --reason -p- --min-rate=10000 ${HTB_IP} | tee "${HTB_IP}_ports_all.nmap"
+nmap -Pn -n -sT -p- --min-rate=10000 ${HTB_IP} | tee "${HTB_IP}_ports_all.nmap"
 
 echo -e "${YT_BB}[info]${RS} Starting base scan..."
 ports=$(grep 'open' "${HTB_IP}_ports_all.nmap" | cut -d '/' -f1 | paste -sd ',')
-nmap -v -Pn -n -sT -sCV -O -p ${ports} ${HTB_IP} | tee "${HTB_IP}_baseScan.nmap"
+nmap -v -Pn -n -sT --reason -sV -O -p ${ports} ${HTB_IP} | tee "${HTB_IP}_baseScan.nmap"
 echo -e "${YT_BB}[info]${RS} Base scan is Done."
 
-echo -e "${YT_BB}[info]${RS} Starting NSE vuln scan for ports < 5000..."
+echo -e "${YT_BB}[info]${RS} Starting sC & vuln scan for ports < 5000..."
 ports_lt5000=$(grep 'open' "${HTB_IP}_ports_all.nmap" | cut -d '/' -f1 | awk '$1 < 5000' | paste -sd ',')
 nohup nmap -v -Pn -n -p ${ports_lt5000} --script=vuln ${HTB_IP} > "${HTB_IP}_NSE-vuln.nmap" 2>&1 &
 echo -e "${YT_BB}[info]${RS} Running NSE vuln scan background..."
