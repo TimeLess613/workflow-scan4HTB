@@ -25,7 +25,7 @@ echo -e "${info_YT_BB} Running NSE vuln scan background..."
 echo -e "${info_YT_BB} ==============================================="
 
 echo -e "${info_YT_BB} Checking if there is domain for add to hosts..."
-HEADER_Location=$(curl -m 3 -I ${HTB_IP} | grep "Location:" || true)
+HEADER_Location=$(curl -s -m 3 -I ${HTB_IP} | grep "Location:" || true)
 
 if [[ ${HEADER_Location} != '' ]];then
   HTB_DOMAIN=$(echo ${HEADER_Location} | cut -d '/' -f 3)
