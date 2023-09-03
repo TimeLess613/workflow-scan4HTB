@@ -28,14 +28,14 @@ echo -e "${info_YT_BB} Checking if there is domain for add to hosts..."
 HEADER_Location=$(curl -s -m 3 -I ${HTB_IP} | grep "Location:" || true)
 
 if [[ ${HEADER_Location} != '' ]];then
-  HTB_DOMAIN=$(echo ${HEADER_Location} | cut -d '/' -f 3)
+  HTB_DOMAIN=$(echo ${HEADER_Location} | cut -d '/' -f 3 | tr -d '\r')
   echo -e "${info_YT_BB} HTB_DOMAIN: ${HTB_DOMAIN}"
 
   if [[ ${HTB_DOMAIN} != '' ]];then
     # shows for backup
     echo -e "${info_YT_BB} -------- Back up hosts --------"
     cat -e /etc/hosts
-    echo -e "${info_YT_BB} -------- Backed up hosts --------"
+    echo -e "${info_YT_BB} -------- Back-ed up hosts --------"
 
     echo -e "${info_YT_BB} -------- Add HTB_DOMAIN(${HTB_DOMAIN}) to hosts --------"
     echo "${HTB_IP}    ${HTB_DOMAIN}" >> /etc/hosts
