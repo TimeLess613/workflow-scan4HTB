@@ -37,16 +37,14 @@ if [[ ${HEADER_Location} != '' ]];then
     cat -e /etc/hosts
     echo -e "${info_YT_BB} -------- Back-ed up hosts --------"
 
-    echo -e "${info_YT_BB} -------- Add HTB_DOMAIN(${HTB_DOMAIN}) to hosts --------"
+    echo -e "${info_YT_BB} -------- Add HTB_DOMAIN( ${HTB_DOMAIN} ) to hosts --------"
     echo "${HTB_IP}    ${HTB_DOMAIN}" >> /etc/hosts
-    echo -e "${info_YT_BB} -------- Modified hosts --------"
-
     echo -e "${info_YT_BB} -------- Show now hosts --------"
-    cat -e /etc/hosts
+    cat -e /etc/hosts | tail -n 5
 
-#     echo -e "${info_YT_BB} Scanning subdomain..."
-#     gobuster vhost -u ${HTB_DOMAIN} -w /usr/share/wordlists/amass/bitquark_subdomains_top100K.txt -t 100 --append-domain -o "subdomains_${HTB_DOMAIN}.txt"
-#     echo -e "${info_YT_BB} Subdomain scan is Done."
+    echo -e "${info_YT_BB} Scanning subdomain..."
+    gobuster vhost -u ${HTB_DOMAIN} -w /usr/share/wordlists/amass/bitquark_subdomains_top100K.txt -t 100 --append-domain -o "subdomains_${HTB_DOMAIN}.txt"
+    echo -e "${info_YT_BB} Subdomain scan is Done."
   fi
 fi
 
