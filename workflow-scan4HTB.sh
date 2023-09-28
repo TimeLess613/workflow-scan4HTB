@@ -19,7 +19,8 @@ echo -e "${info_YT_BB} Base scan is Done."
 
 echo -e "${info_YT_BB} Starting sC & vuln scan for ports < 5000..."
 ports_lt5000=$(grep 'open' "${HTB_IP}_ports_all.nmap" | cut -d '/' -f1 | awk '$1 < 5000' | paste -sd ',')
-nohup nmap -v -Pn -n -p ${ports_lt5000} -sC --script=vuln ${HTB_IP} > "${HTB_IP}_NSE-vuln.nmap" 2>&1 &
+nohup nmap -v -Pn -n -p ${ports_lt5000} -sC ${HTB_IP} > "${HTB_IP}_NSE-sC .nmap" 2>&1 &
+nohup nmap -v -Pn -n -p ${ports_lt5000} --script=vuln ${HTB_IP} > "${HTB_IP}_NSE-vuln.nmap" 2>&1 &
 echo -e "${info_YT_BB} Running NSE vuln scan background..."
 
 echo -e "${info_YT_BB} ==============================================="
@@ -49,7 +50,7 @@ if [[ ${HEADER_Location} != '' ]];then
 fi
 
 echo -e "${info_YT_BB} ==============================================="
-echo -e "${info_YT_BB} The NSE-vuln scan maybe still running..."
+echo -e "${info_YT_BB} The NSE scan maybe still running..."
 echo -e "${info_YT_BB} Show ps..."
 ps -ef | grep 'nmap -v '
 echo -e "${info_YT_BB} ==============================================="
