@@ -10,7 +10,7 @@ info_YT_BB='\033[33;44m[info]\033[0m'    # yellow text blue background
 
 
 echo -e "${info_YT_BB} Starting ports scan..."
-nmap -Pn -n -sT --reason -p- --min-rate=10000 ${HTB_IP} | tee "${HTB_IP}_ports_all.nmap"
+nmap -Pn -n -sT --reason -p- --min-rate=5000 ${HTB_IP} | tee "${HTB_IP}_ports_all.nmap"
 
 echo -e "${info_YT_BB} Starting base scan..."
 ports=$(grep 'open' "${HTB_IP}_ports_all.nmap" | cut -d '/' -f1 | paste -sd ',')
