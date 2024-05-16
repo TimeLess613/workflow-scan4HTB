@@ -44,7 +44,7 @@ if [[ ${HEADER_Location} != '' ]];then
     cat -e /etc/hosts | tail -n 5
 
     echo -e "${info_YT_BB} Scanning subdomain..."
-    gobuster vhost -u ${HTB_DOMAIN} -w /usr/share/wordlists/amass/bitquark_subdomains_top100K.txt -t 100 --append-domain -o "subdomains_${HTB_DOMAIN}.txt"
+    gobuster vhost -u ${HTB_DOMAIN} -w /usr/share/wordlists/amass/subdomains.lst -t 10 --append-domain -o "subdomains_${HTB_DOMAIN}.txt"
     echo -e "${info_YT_BB} Subdomain scan is Done."
   fi
 fi
