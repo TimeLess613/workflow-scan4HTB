@@ -13,7 +13,8 @@ echo -e "${info_YT_BB} Starting ports scan..."
 nmap -Pn -n -sT --reason -p- --min-rate=5000 ${HTB_IP} | tee "${HTB_IP}_ports_all.nmap"
 nmap -Pn -n -sT --reason -p- --min-rate=5000 ${HTB_IP} | tee "${HTB_IP}_ports_all2.nmap"    ## Just in case
 
-if [[ $(diff "${HTB_IP}_ports_all.nmap" "${HTB_IP}_ports_all2.nmap") ]]; then
+if [[ diff "${HTB_IP}_ports_all.nmap" "${HTB_IP}_ports_all2.nmap" | fgrep open ]]; then
+  echo -e "${info_YT_BB} Different results about ports scan..."
   exit 1
 else
   echo -e "${info_YT_BB} Starting base scan..."
