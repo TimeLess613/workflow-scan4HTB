@@ -21,25 +21,26 @@ echo "1) $file1"
 echo "2) $file2"
 echo "0) Exit this script."
 
-read -p "Enter your choice with number: " choice
-case $choice in
-  0)
-    echo -e "${info_YT_BB} Exit this script."
-    exit 0
-    ;;
-  1)
-    selected_file="$file1"
-    break
-    ;;
-  2)
-    selected_file="$file2"
-    break
-    ;;
-  *)
-    echo "Invalid choice."
-    exit 1
-    ;;
-esac
+while true; do
+  read -p "${info_YT_BB} Enter your choice with number: " choice
+  case $choice in
+    0)
+      echo -e "${info_YT_BB} Exit this script."
+      exit 0
+      ;;
+    1)
+      selected_file="$file1"
+      break
+      ;;
+    2)
+      selected_file="$file2"
+      break
+      ;;
+    *)
+      echo "Invalid choice. Choice 0,1,2."
+      ;;
+  esac
+done
 
 echo -e "${info_YT_BB} Starting base scan using ${selected_file}..."
 ports=$(grep 'open' "${selected_file}" | cut -d '/' -f1 | paste -sd ',')
