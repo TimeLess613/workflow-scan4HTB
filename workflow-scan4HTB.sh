@@ -25,10 +25,10 @@ else
   echo "0) Exit this script."
   
   while true; do
-    read -p "${info_YT_BB} Enter your choice with number: " choice
+    read -p "Enter your choice with number: " choice
     case $choice in
       0)
-        echo -e "${info_YT_BB} Exit this script."
+        echo "Exit this script."
         exit 0
         ;;
       1)
