@@ -17,22 +17,28 @@ file1="${HTB_IP}_ports_all.nmap"
 file2="${HTB_IP}_ports_all2.nmap"
 
 echo "Select a results file to do next step:"
-echo "1) ${file1}"
-echo "2) ${file2}"
+echo "1) $file1"
+echo "2) $file2"
 echo "0) Exit this script."
-read -p "Enter your choice with number: " choice
 
-if [[ "$choice" -eq 0 ]]; then
-  echo -e "${info_YT_BB} Exit this script."
-  exit 0
-elif [[ "$choice" -eq 1 ]]; then
-  selected_file="$file1"
-elif [[ "$choice" -eq 2 ]]; then
-  selected_file="$file2"
-else
-  echo "Invalid choice."
-  exit 1
-fi
+read -p "Enter your choice with number: " choice
+case $choice in
+  0)
+    echo -e "${info_YT_BB} Exit this script."
+    exit 0
+    ;;
+  1)
+    selected_file="$file1"
+    break
+    ;;
+  2)
+    selected_file="$file2"
+    break
+    ;;
+  *)
+    echo "Invalid choice."
+    exit 1
+esac
 
 echo -e "${info_YT_BB} Starting base scan using ${selected_file}..."
 ports=$(grep 'open' "${selected_file}" | cut -d '/' -f1 | paste -sd ',')
