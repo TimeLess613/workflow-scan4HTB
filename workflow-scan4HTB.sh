@@ -3,7 +3,7 @@
 
 ## Usage: sudo bash workflow-scan4HTB.sh <HTB_IP>
 
-set -eu
+set -eux
 
 HTB_IP=${1}
 info_YT_BB='\033[33;44m[info]\033[0m'    # yellow text blue background
@@ -17,7 +17,8 @@ file1="${HTB_IP}_ports_all.nmap"
 file2="${HTB_IP}_ports_all2.nmap"
 
 diff <(fgrep open $file1) <(fgrep open $file2)
-if [ $? -eq 0 ]; then
+diff_status=$?
+if [ $diff_status -eq 0 ]; then
   selected_file="$file1"
 else
   echo "Select a results file to do next step:"
