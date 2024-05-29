@@ -16,31 +16,35 @@ nmap -Pn -n -sT --reason -p- --min-rate=5000 ${HTB_IP} | tee "${HTB_IP}_ports_al
 file1="${HTB_IP}_ports_all.nmap"
 file2="${HTB_IP}_ports_all2.nmap"
 
-echo "Select a results file to do next step:"
-echo "1) $file1"
-echo "2) $file2"
-echo "0) Exit this script."
-
-while true; do
-  read -p "${info_YT_BB} Enter your choice with number: " choice
-  case $choice in
-    0)
-      echo -e "${info_YT_BB} Exit this script."
-      exit 0
-      ;;
-    1)
-      selected_file="$file1"
-      break
-      ;;
-    2)
-      selected_file="$file2"
-      break
-      ;;
-    *)
-      echo "Invalid choice. Choice 0,1,2."
-      ;;
-  esac
-done
+if diff <(fgrep open $file1) <(fgrep open $file2) > /dev/null; then
+  selected_file="$file1"
+else
+  echo "Select a results file to do next step:"
+  echo "1) $file1"
+  echo "2) $file2"
+  echo "0) Exit this script."
+  
+  while true; do
+    read -p "${info_YT_BB} Enter your choice with number: " choice
+    case $choice in
+      0)
+        echo -e "${info_YT_BB} Exit this script."
+        exit 0
+        ;;
+      1)
+        selected_file="$file1"
+        break
+        ;;
+      2)
+        selected_file="$file2"
+        break
+        ;;
+      *)
+        echo "Invalid choice. Choice 0,1,2."
+        ;;
+    esac
+  done
+fi
 
 echo -e "${info_YT_BB} Starting base scan using ${selected_file}..."
 ports=$(grep 'open' "${selected_file}" | cut -d '/' -f1 | paste -sd ',')
