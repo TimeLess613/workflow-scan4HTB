@@ -16,7 +16,8 @@ nmap -Pn -n -sT --reason -p- --min-rate=5000 ${HTB_IP} | tee "${HTB_IP}_ports_al
 file1="${HTB_IP}_ports_all.nmap"
 file2="${HTB_IP}_ports_all2.nmap"
 
-if diff <(fgrep open $file1) <(fgrep open $file2) > /dev/null; then
+diff <(fgrep open $file1) <(fgrep open $file2)
+if [ $? -eq 0 ]; then
   selected_file="$file1"
 else
   echo "Select a results file to do next step:"
