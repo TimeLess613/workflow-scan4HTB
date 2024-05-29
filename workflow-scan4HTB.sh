@@ -38,6 +38,7 @@ case $choice in
   *)
     echo "Invalid choice."
     exit 1
+    ;;
 esac
 
 echo -e "${info_YT_BB} Starting base scan using ${selected_file}..."
