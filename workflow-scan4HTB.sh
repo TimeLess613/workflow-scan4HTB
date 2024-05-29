@@ -3,7 +3,7 @@
 
 ## Usage: sudo bash workflow-scan4HTB.sh <HTB_IP>
 
-set -eux
+set -eu
 
 HTB_IP=${1}
 info_YT_BB='\033[33;44m[info]\033[0m'    # yellow text blue background
@@ -20,6 +20,7 @@ diff <(fgrep open $file1) <(fgrep open $file2)
 diff_status=$?
 if [ $diff_status -eq 0 ]; then
   selected_file="$file1"
+  echo "${info_YT_BB} Same result files, use $selected_file to do next step..."
 else
   echo "Select a results file to do next step:"
   echo "1) $file1"
