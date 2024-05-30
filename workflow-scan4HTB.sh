@@ -75,7 +75,7 @@ if [[ ${HEADER_Location} != '' ]];then
     cat -e /etc/hosts
     echo -e "${info_YT_BB} -------- Back-ed up hosts --------"
 
-    echo -e "${info_YT_BB} -------- Add HTB_DOMAIN( ${HTB_DOMAIN} ) to hosts --------"
+    echo -e "${info_YT_BB} ... Adding HTB_DOMAIN( ${HTB_DOMAIN} ) to hosts..."
     echo "${HTB_IP}    ${HTB_DOMAIN}" >> /etc/hosts
     echo -e "${info_YT_BB} -------- Show now hosts --------"
     cat -e /etc/hosts | tail -n 5
