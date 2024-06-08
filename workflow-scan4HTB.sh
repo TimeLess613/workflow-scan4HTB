@@ -18,7 +18,8 @@ file2="${HTB_IP}_ports_all2.nmap"
 
 diff <(fgrep open $file1) <(fgrep open $file2)
 diff_status=$?
-if [ $diff_status -eq 0 ]; then
+echo ${diff_status}  # for sometimes debug.
+if [ ${diff_status} -eq 0 ]; then
   selected_file="$file1"
   echo -e "${info_YT_BB} Same result files, use $selected_file to do next step..."
 else
