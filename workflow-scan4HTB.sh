@@ -95,3 +95,5 @@ echo -e "${info_YT_BB} ==============================================="
 echo -e "${info_YT_BB} If it's still running, please check status with command: ps -ef | grep 'nmap -v -Pn -n'"
 ps -ef | grep 'nmap -v -Pn -n'
 echo -e "${info_YT_BB} Maybe next step for dir-enum with feroxbuster/gobuster/fuff: feroxbuster -u http://${HTB_DOMAIN:-$HTB_IP}/ -w /usr/share/wordlists/dirb/big.txt -o dirEnum_${HTB_DOMAIN:-$HTB_IP}.txt -x php,txt"
+
+whatweb ${HTB_DOMAIN:-$HTB_IP}
