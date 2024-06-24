@@ -10,8 +10,8 @@ info_YT_BB='\033[33;44m[info]\033[0m'    # yellow text blue background
 
 
 echo -e "${info_YT_BB} Starting ports scan..."
-nmap -Pn -n -sT --reason -p- --min-rate=5000 ${HTB_IP} | tee "${HTB_IP}_ports_all.nmap"
-nmap -Pn -n -sT --reason -p- --min-rate=5000 ${HTB_IP} | tee "${HTB_IP}_ports_all2.nmap"    ## Just in case
+nmap -Pn -n -sT --reason -p- --min-rate=5000 ${HTB_IP} -oA "${HTB_IP}_ports_all"
+nmap -Pn -n -sT --reason -p- --min-rate=5000 ${HTB_IP} -oA "${HTB_IP}_ports_all2"    ## Just in case
 
 file1="${HTB_IP}_ports_all.nmap"
 file2="${HTB_IP}_ports_all2.nmap"
@@ -52,13 +52,13 @@ fi
 
 echo -e "${info_YT_BB} Starting base scan using ${selected_file}..."
 ports=$(grep 'open' "${selected_file}" | cut -d '/' -f1 | paste -sd ',')
-nmap -v -Pn -n -sT -sV -O -p ${ports} ${HTB_IP} | tee "${HTB_IP}_baseScan.nmap"
+nmap -v -Pn -n -sT -sV -O -p ${ports} ${HTB_IP} -oA "${HTB_IP}_baseScan"
 echo -e "${info_YT_BB} Base scan is Done."
 
 echo -e "${info_YT_BB} Starting sC & vuln scan for ports < 5000..."
 ports_lt5000=$(grep 'open' "${selected_file}" | cut -d '/' -f1 | awk '$1 < 5000' | paste -sd ',')
-nohup nmap -v -Pn -n -p ${ports_lt5000} -sC ${HTB_IP} > "${HTB_IP}_NSE-sC.nmap" 2>&1 &
-nohup nmap -v -Pn -n -p ${ports_lt5000} --script=vuln ${HTB_IP} > "${HTB_IP}_NSE-vuln.nmap" 2>&1 &
+nohup nmap -v -Pn -n -p ${ports_lt5000} -sC ${HTB_IP} -oA "${HTB_IP}_NSE-sC" 2>&1 &
+nohup nmap -v -Pn -n -p ${ports_lt5000} --script=vuln ${HTB_IP} -oA "${HTB_IP}_NSE-vuln" 2>&1 &
 echo -e "${info_YT_BB} Running NSE vuln scan background..."
 
 echo -e "${info_YT_BB} ==============================================="
