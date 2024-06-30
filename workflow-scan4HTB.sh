@@ -57,8 +57,8 @@ echo -e "${info_YT_BB} Base scan is Done."
 
 echo -e "${info_YT_BB} Starting sC & vuln scan for ports < 5000..."
 ports_lt5000=$(grep 'open' "${selected_file}" | cut -d '/' -f1 | awk '$1 < 5000' | paste -sd ',')
-nohup nmap -v -Pn -n -p ${ports_lt5000} -sC ${HTB_IP} -oA "${HTB_IP}_NSE-sC" 2>&1 &
-nohup nmap -v -Pn -n -p ${ports_lt5000} --script=vuln ${HTB_IP} -oA "${HTB_IP}_NSE-vuln" 2>&1 &
+nohup nmap -v -Pn -n -p ${ports_lt5000} -sC ${HTB_IP} -oA "${HTB_IP}_NSE-sC" > /dev/null 2>&1 &
+nohup nmap -v -Pn -n -p ${ports_lt5000} --script=vuln ${HTB_IP} -oA "${HTB_IP}_NSE-vuln" > /dev/null 2>&1 &
 echo -e "${info_YT_BB} Running NSE vuln scan background..."
 
 echo -e "${info_YT_BB} ==============================================="
