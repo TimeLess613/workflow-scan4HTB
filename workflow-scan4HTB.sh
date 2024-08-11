@@ -104,7 +104,7 @@ mkdir nmap_other_format
 mv *.gnmap nmap_other_format
 mv *.xml nmap_other_format
 
-chown -R "/home/kali/HTB/${1}"
+chown -R kali:kali "/home/kali/HTB/${1}"
 
 echo -e "${info_YT_BB} Finished!"
 echo -e "${info_YT_BB} Maybe next step for dir-enum with feroxbuster/gobuster/fuff: feroxbuster -u http://${HTB_DOMAIN:-$HTB_IP}/ -t 32 -w /usr/share/wordlists/dirb/big.txt -o dirEnum_${HTB_DOMAIN:-$HTB_IP}.txt -x php,txt"
