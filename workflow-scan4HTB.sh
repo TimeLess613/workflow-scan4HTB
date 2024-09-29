@@ -18,6 +18,7 @@ echo -e "${info_YT_BB} Starting ports scan..."
 nmap -Pn -n -sT --reason -p- --min-rate=5000 ${HTB_IP} -oA "${HTB_IP}_ports_all"
 nmap -Pn -n -sT --reason -p- --min-rate=5000 ${HTB_IP} -oA "${HTB_IP}_ports_all2"    ## Just in case
 
+echo -e "${info_YT_BB} ==============================================="
 file1="${HTB_IP}_ports_all.nmap"
 file2="${HTB_IP}_ports_all2.nmap"
 
@@ -25,6 +26,7 @@ set +e
 diff <(fgrep open $file1 | cut -d ' ' -f1) <(fgrep open $file2 | cut -d ' ' -f1)
 diff_status=$?
 set -e
+echo -e "${info_YT_BB} ==============================================="
 
 if [ ${diff_status} -eq 0 ]; then
   selected_file="$file1"
