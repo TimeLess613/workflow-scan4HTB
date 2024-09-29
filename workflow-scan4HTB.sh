@@ -37,6 +37,9 @@ else
   
   while true; do
     read -p "Enter your choice with number: " choice
+    choice=$(echo "$choice" | tr -d '[:space:]')
+    echo "You entered choice: $choice"
+    
     case $choice in
       0)
         echo "Exit this script."
